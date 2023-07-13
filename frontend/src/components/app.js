@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import HomePage from './homepage.js';
+import Navbar from './navbar.js';
 
 export default class App extends Component {
     constructor(props) {
@@ -10,6 +11,7 @@ export default class App extends Component {
     render () {
         return (
             <div>
+                <Navbar />
                 <HomePage />            
             </div>
         );

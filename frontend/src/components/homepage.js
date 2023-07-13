@@ -10,9 +10,8 @@ export default class HomePage extends Component {
     }
 
     render() {
-        return (
+        return (        
             <div>
-                <Navbar />
                 <Router>
                     <Routes>
                         <Route path='/' element={<p>This is the homepage</p>} />

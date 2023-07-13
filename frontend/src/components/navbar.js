@@ -12,6 +12,7 @@ import AboutPage from './about.js';
 import LoginPage from './login.js';
 import RegisterPage from './register.js';
 import SeeCompany from './companypage.js';
+import SeeDocument from './document.js';
 
 export default function Navbar(props) {
     return (
@@ -46,6 +47,7 @@ export default function Navbar(props) {
                         <Route path='/login' element={<LoginPage />} />
                         <Route path='/register' element={<RegisterPage />} />
                         <Route path='/filings/:ticker' element={<SeeCompany/>} />
+                        <Route path='/filings/:ticker/:docid' element={<SeeDocument/>} />
                     </Routes>
             </Box>
         </Router>             

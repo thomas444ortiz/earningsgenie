@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';  
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';  // Import useNavigate
 
 export default function SeeFilingsPage() {
-  const options = ['Company 1', 'Company 2', 'Company 3', 'Company 4'];
+  const [options, setOptions] = useState([]);
+  const [selectedTicker, setSelectedTicker] = useState(null);
+  const navigate = useNavigate();  // Get a reference to the navigate function
+
+  useEffect(() => {
+        fetch('api/companies')
+            .then(response => response.json())
+            .then(data => {
+                const tickers = data.map(company => company.ticker);  
+                setOptions(tickers);  
+            })
+            .catch(error => console.error(error));
+    }, []); 
 
   return (
     <Box m="auto" sx={{  
@@ -23,11 +36,14 @@ export default function SeeFilingsPage() {
         <Autocomplete
           options={options}
           fullWidth
+          onChange={(event, newValue) => setSelectedTicker(newValue)}  
           renderInput={(params) => <TextField {...params} label="Enter a Ticker Here" />}
         />
-        <Button variant="contained" sx={{marginTop: '20px'}}>Go To This Company's Documents</Button>
+        <Button variant="contained" sx={{marginTop: '20px'}} onClick={() => navigate(`/filings/${selectedTicker}`)}>Go To This Company's Documents</Button>
       </Box>
     </Box>
   );
 }
+
+
 

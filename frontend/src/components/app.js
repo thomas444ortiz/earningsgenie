@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import Navbar from './navbar.js';
 
 export default class App extends Component {
@@ -17,4 +17,5 @@ export default class App extends Component {
 }
 
 const appDiv = document.getElementById("app");
-render(<App />, appDiv);
+const root = ReactDOM.createRoot(appDiv);
+root.render(<App />);

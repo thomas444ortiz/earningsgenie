@@ -11,6 +11,7 @@ import UploadTranscriptPage from './uploadtranscriptpage.js';
 import AboutPage from './about.js';
 import LoginPage from './login.js';
 import RegisterPage from './register.js';
+import SeeCompany from './companypage.js';
 
 export default function Navbar(props) {
     return (
@@ -44,6 +45,7 @@ export default function Navbar(props) {
                         <Route path='/uploadtranscript' element={<UploadTranscriptPage />} />     
                         <Route path='/login' element={<LoginPage />} />
                         <Route path='/register' element={<RegisterPage />} />
+                        <Route path='/filings/:ticker' element={<SeeCompany/>} />
                     </Routes>
             </Box>
         </Router>             

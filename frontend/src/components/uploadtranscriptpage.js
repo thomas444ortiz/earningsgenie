@@ -6,12 +6,23 @@ import Box from '@mui/material/Box';
 export default function UploadTranscriptPage() {
   const [textFieldValue, setTextFieldValue] = useState('');  // State to hold the value of the TextField
   const [file, setFile] = useState(null); // State to hold the uploaded file
+  const [responseValue, setResponseValue] = useState('');  // State to hold the response
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   const onFileChange = (event) => {
     setFile(event.target.files[0]);
   };
 
   const handleSubmit = async () => {
+    // Validate input length and file attachment
+    if (textFieldValue.length < 10 || !file) {
+      alert('Please enter at least 10 characters and attach a PDF file before submitting.');
+      return;
+    }
+
+    // Disable the button
+    setButtonDisabled(true);
+
     const formData = new FormData();
     formData.append('text', textFieldValue);
     formData.append('file', file);
@@ -24,8 +35,16 @@ export default function UploadTranscriptPage() {
 
       const data = await response.json();
       console.log(data);
+
+      setResponseValue(data.response);  // Assume the response data is in a field called 'message'
+
+      setTimeout(() => {
+        setButtonDisabled(false);
+      }, 15000);  // Re-enable the button after 10 seconds
     } catch (error) {
       console.error(error);
+      // Enable the button if there was an error
+      setButtonDisabled(false);
     }
   };
 
@@ -34,7 +53,7 @@ export default function UploadTranscriptPage() {
       <h1>Upload Transcript</h1>
       <input type="file" accept="application/pdf" onChange={onFileChange} />
         
-        <h1>Type in your question and submit</h1>
+      <h1>Type in your question and submit</h1>
       <TextField 
         label="User input"
         variant="outlined"
@@ -46,9 +65,26 @@ export default function UploadTranscriptPage() {
         inputProps={{ maxLength: 100 }}
       />
 
-      <Button variant="contained" sx={{marginTop: '20px'}} onClick={handleSubmit}>
-        Submit
-      </Button>
+      <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+        <Button variant="contained" sx={{marginTop: '20px'}} onClick={handleSubmit} disabled={buttonDisabled}>
+          Submit
+        </Button>
+        {buttonDisabled ? (
+          <p style={{margin: '0'}}>Button is disabled for 15 seconds after being pressed.</p>
+        ) : null}
+      </div>
+
+      <TextField  // Added TextField to display the response
+        label="Response"
+        variant="outlined"
+        fullWidth
+        multiline
+        minRows={1}
+        value={responseValue}
+        InputProps={{readOnly: true}}
+        sx={{marginTop: '20px'}}
+      />
     </Box>
   );
 }
+

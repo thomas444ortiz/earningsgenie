@@ -9,6 +9,8 @@ export default function SeeDocument() {
   const [document, setDocument] = useState(null);
   const [company, setCompany] = useState(null);
   const [textFieldValue, setTextFieldValue] = useState('');  // State to hold the value of the TextField
+  const [responseValue, setResponseValue] = useState('');  // State to hold the response
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   useEffect(() => {
     // Fetch the document data
@@ -27,6 +29,15 @@ export default function SeeDocument() {
   }, [docid, ticker]);
 
   const handleSubmit = () => {
+    // Validate input length
+    if (textFieldValue.length < 10) {
+      alert('Please enter at least 10 characters before submitting.');
+      return;
+    }
+
+    // Disable the button
+    setButtonDisabled(true);
+    
     // Send a POST request to the backend
     fetch('/api/submit-text', {
       method: 'POST',
@@ -36,8 +47,18 @@ export default function SeeDocument() {
       body: JSON.stringify({ text: textFieldValue, body: document.body })
     })
     .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error(error));
+    .then(data => {
+      console.log(data);
+      setResponseValue(data.response);  // Assume the response data is in a field called 'message'
+      setTimeout(() => {
+        setButtonDisabled(false);
+      }, 15000);  // Re-enable the button after 10 seconds
+    })
+    .catch(error => {
+      console.error(error);
+      // Enable the button if there was an error
+      setButtonDisabled(false);
+    });
   };
   
 
@@ -50,6 +71,41 @@ export default function SeeDocument() {
       gap: '20px',
       marginTop: '50px'
     }}>
+      
+      <Box sx={{width: '90%', marginTop: '20px'}}>
+        <TextField 
+          label="User input"
+          variant="outlined"
+          fullWidth
+          multiline
+          minRows={1}
+          value={textFieldValue}
+          onChange={e => setTextFieldValue(e.target.value)}
+          inputProps={{ maxLength: 100 }}
+        />
+
+        <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+          <Button variant="contained" sx={{marginTop: '20px'}} onClick={handleSubmit} disabled={buttonDisabled}>
+            Submit
+          </Button>
+
+          {buttonDisabled ? (
+              <p>Button is disabled for 15 seconds after being pressed.</p>
+            ) : null}          
+        </div>
+
+        <TextField  // Added TextField to display the response
+          label="Response"
+          variant="outlined"
+          fullWidth
+          multiline
+          minRows={1}
+          value={responseValue}
+          InputProps={{readOnly: true}}
+          sx={{marginTop: '20px'}}
+        />
+      </Box>      
+      
       {document && company ? (
         <Box sx={{
           display: 'flex',
@@ -68,23 +124,6 @@ export default function SeeDocument() {
       ) : (
         <h1>Loading...</h1>
       )}
-
-      <Box sx={{width: '90%', marginTop: '20px'}}>
-        <TextField 
-          label="User input"
-          variant="outlined"
-          fullWidth
-          multiline
-          minRows={1}
-          value={textFieldValue}
-          onChange={e => setTextFieldValue(e.target.value)}
-          inputProps={{ maxLength: 100 }}
-        />
-
-        <Button variant="contained" sx={{marginTop: '20px'}} onClick={handleSubmit}>
-          Submit
-        </Button>
-      </Box>
     </Box>
   );
 }

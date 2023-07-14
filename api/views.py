@@ -87,8 +87,6 @@ def ProcessUserInput(request):
         print(contents)
         print(input)        
 
- #This is the llm stuff for our tet chat
-        #Document loader
         # Create a temporary file
         with tempfile.NamedTemporaryFile(delete=False) as tmp:
             tmp.write(contents.encode())
@@ -101,6 +99,20 @@ def ProcessUserInput(request):
 
         # Delete the temporary file
         os.unlink(tmp.name)
+
+        response_message = index.query(input, ChatOpenAI(temperature=0.9))
+        print(response_message)
+        return JsonResponse({"response": response_message})
+
+
+   
+
+
+
+
+
+
+
 
 #llm stuff division for just regular chatbot
         #Prompt template
@@ -115,11 +127,6 @@ def ProcessUserInput(request):
         #llm = OpenAI(temperature=0.9)
         #title_chain = LLMChain(llm=llm, prompt=question_template, verbose=True)
         #response = title_chain.run(user_question=input)
-
-#This is the end of the LLM stuff
-        #document chat
-        print(index.query(input, ChatOpenAI(temperature=0.9)))
         #regular chatbot
         #print(response)
-        #Return some response for now
-        return JsonResponse({"message": "Input received."})
+

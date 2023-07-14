@@ -27,9 +27,19 @@ export default function SeeDocument() {
   }, [docid, ticker]);
 
   const handleSubmit = () => {
-    // Placeholder for submission logic
-    console.log(textFieldValue);
+    // Send a POST request to the backend
+    fetch('/api/submit-text', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ text: textFieldValue, body: document.body })
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error(error));
   };
+  
 
   return (
     <Box sx={{

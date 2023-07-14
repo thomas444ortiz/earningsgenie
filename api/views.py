@@ -9,6 +9,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.http import JsonResponse
 import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.core.files.storage import default_storage
+import PyPDF2
+import io
+from PyPDF2 import PdfReader
 
 class DocumentView(generics.ListAPIView):
     queryset = Document.objects.all()
@@ -44,10 +50,24 @@ class SingleDocumentView(generics.RetrieveAPIView):
 @csrf_exempt
 def ProcessUserInput(request):
     if request.method == 'POST':
-        data = json.loads(request.body.decode('utf-8'))
-        input = data.get('text', None)
-        body = data.get('body', None)
-        print(body)        
-        print(input)
-        return JsonResponse({"message": "Input received."})
+        if 'file' in request.FILES:
+            # process PDF file
+            pdf_file = request.FILES['file']
+            input_text = request.POST.get('text', '')
+            # or if you just want to read the contents
+            reader = PdfReader(pdf_file)
+            contents = ''
+            for page in reader.pages:
+                contents += page.extract_text()
+            print(contents)
+            print(input_text)
 
+        else:
+            # process text
+            data = json.loads(request.body.decode('utf-8'))
+            input = data.get('text', None)
+            body = data.get('body', None)
+            print(body)
+            print(input)
+
+        return JsonResponse({"message": "Input received."})

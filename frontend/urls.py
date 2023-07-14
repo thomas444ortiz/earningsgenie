@@ -9,4 +9,5 @@ urlpatterns = [
     path('uploadtranscript', index, name='uploadtranscript'),  
     path('login', index, name='login'),
     path('register', index, name='register'),
+    path('earningsgeniepro', index, name='earningsgeniepro'),
 ]

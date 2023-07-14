@@ -13,6 +13,7 @@ import LoginPage from './login.js';
 import RegisterPage from './register.js';
 import SeeCompany from './companypage.js';
 import SeeDocument from './document.js';
+import EarningsGeniePro from './earningsgeniepro.js';
 
 export default function Navbar(props) {
     return (
@@ -33,7 +34,8 @@ export default function Navbar(props) {
                         </Typography>
                         <Button color="inherit" component={RouterLink} to="">About EarningsGenie</Button>
                         <Button color="inherit" component={RouterLink} to="/filings">Filings</Button>
-                        <Button color="inherit" component={RouterLink} to="/uploadtranscript">Upload Transcript</Button>                                 
+                        <Button color="inherit" component={RouterLink} to="/uploadtranscript">Upload Transcript</Button> 
+                        <Button color="inherit" component={RouterLink} to="/earningsgeniepro">EarningsGenie Pro</Button>                                                      
                         <Button color="inherit" component={RouterLink} to="/login">Login</Button>
                         <Button color="inherit" component={RouterLink} to="/register">Register</Button>                        
                         <Button color="inherit">Logout</Button>
@@ -44,6 +46,7 @@ export default function Navbar(props) {
                         <Route path='' element={<AboutPage />} />       
                         <Route path='/filings' element={<SeeFilingsPage/>}/>   
                         <Route path='/uploadtranscript' element={<UploadTranscriptPage />} />     
+                        <Route path='/earningsgeniepro' element={<EarningsGeniePro />} />   
                         <Route path='/login' element={<LoginPage />} />
                         <Route path='/register' element={<RegisterPage />} />
                         <Route path='/filings/:ticker' element={<SeeCompany/>} />

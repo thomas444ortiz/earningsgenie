@@ -15,6 +15,17 @@ from django.core.files.storage import default_storage
 import PyPDF2
 import io
 from PyPDF2 import PdfReader
+#Imports related to langchain
+import os
+from api.apikey import apikey
+
+import streamlit as st
+from langchain.llms import OpenAI
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
+
+os.environ['OPENAI_API_KEY'] = apikey
+
 
 class DocumentView(generics.ListAPIView):
     queryset = Document.objects.all()
@@ -49,19 +60,43 @@ class SingleDocumentView(generics.RetrieveAPIView):
 
 @csrf_exempt
 def ProcessUserInput(request):
-    if request.method == 'POST':
+   #If the user uploads a pdf file
+   if request.method == 'POST':
+        
+        
+        
+        
+        
+        
+        
+        
+        #Prompt template
+        question_template = PromptTemplate (
+            input_variables = ['user_question'],
+            template = """You are a financial analyst reading through important documents, which are either public company filings or transcripts of earnings calls. 
+            You have been tasked with answering questions on the document which you have analyzed. You are able to give a concise and insightful response. The
+            question you have been asked is: {user_question}"""
+        )
+        
+        #Some llm stuff
+        llm = OpenAI(temperature=0.9)
+        title_chain = LLMChain(llm=llm, prompt=question_template, verbose=True)
+        
+        
         if 'file' in request.FILES:
             # process PDF file
             pdf_file = request.FILES['file']
-            input_text = request.POST.get('text', '')
+            input = request.POST.get('text', '')
             # or if you just want to read the contents
             reader = PdfReader(pdf_file)
             contents = ''
             for page in reader.pages:
                 contents += page.extract_text()
             print(contents)
-            print(input_text)
+            print(input)
 
+
+        #Otherwise, which is if the user calls this function from the document page for already uploaded documents
         else:
             # process text
             data = json.loads(request.body.decode('utf-8'))
@@ -69,5 +104,7 @@ def ProcessUserInput(request):
             body = data.get('body', None)
             print(body)
             print(input)
+            response = title_chain.run(user_question=input)
+            print(response)
 
         return JsonResponse({"message": "Input received."})

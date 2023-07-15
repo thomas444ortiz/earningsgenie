@@ -18,7 +18,10 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    #Define the admin page, which is the default Django admin page
     path('admin/', admin.site.urls),
+    #Define the route for the api app
     path('api/', include('api.urls')),
+    #Define the route for the frontend app
     path('', include('frontend.urls')),
 ]

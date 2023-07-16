@@ -8,9 +8,13 @@ export default function UploadTranscriptPage() {
   const [file, setFile] = useState(null); // State to hold the uploaded file
   const [responseValue, setResponseValue] = useState('');  // State to hold the response
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [pdfPreviewUrl, setPdfPreviewUrl] = useState(null); // State to hold the PDF preview URL
 
   const onFileChange = (event) => {
-    setFile(event.target.files[0]);
+    const file = event.target.files[0];
+    setFile(file);
+    // Create a blob URL representing the PDF file
+    setPdfPreviewUrl(URL.createObjectURL(file));
   };
 
   const handleSubmit = async () => {
@@ -82,9 +86,18 @@ export default function UploadTranscriptPage() {
         minRows={1}
         value={responseValue}
         InputProps={{readOnly: true}}
-        sx={{marginTop: '20px'}}
+        sx={{marginTop: '20px', marginBottom: '20px'}}
       />
+
+      {/* Display the uploaded PDF file */}
+      {pdfPreviewUrl ? (
+        <embed
+          src={pdfPreviewUrl}
+          type="application/pdf"
+          width="100%"
+          height="600px"
+        />
+      ) : null}
     </Box>
   );
 }
-

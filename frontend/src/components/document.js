@@ -69,12 +69,12 @@ export default function SeeDocument() {
       alignItems: 'center',
       justifyContent: 'center',
       gap: '20px',
-      marginTop: '50px'
+      marginTop: '20px'
     }}>
       
-      <Box sx={{width: '90%', marginTop: '20px'}}>
+      <Box sx={{width: '100%', marginTop: '20px'}}>
         <TextField 
-          label="User input"
+          label="Use this box to ask a question about the document."
           variant="outlined"
           fullWidth
           multiline
@@ -95,7 +95,7 @@ export default function SeeDocument() {
         </div>
 
         <TextField  // Added TextField to display the response
-          label="Response"
+          label="The response will appear here within a few seconds"
           variant="outlined"
           fullWidth
           multiline
@@ -104,26 +104,26 @@ export default function SeeDocument() {
           InputProps={{readOnly: true}}
           sx={{marginTop: '20px'}}
         />
-      </Box>      
-      
+      </Box>           
       {document && company ? (
-        <Box sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '20px',
-          padding: '20px',
-          borderRadius: '10px',
-          border: '1px solid #000',
-          maxWidth: '100%',
-        }}>
-          <h1>{company.name}: {document.title}</h1>
-          <h2>{new Date(document.date).toLocaleDateString()}</h2>
-          <p>{document.body}</p>
-        </Box>
-      ) : (
-        <h1>Loading...</h1>
-      )}
+  <Box sx={{
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'left',
+    gap: '20px',
+    padding: '20px',
+    borderRadius: '10px',
+    border: '1px solid #000',
+    maxWidth: '100%',
+  }}>
+    <h1 style={{ textAlign: 'center', marginBottom: '0', marginTop: '0' }}>{company.name}: {document.title}</h1>
+    <h2 style={{ textAlign: 'center', marginTop: '0' }}>{new Date(document.date).toLocaleDateString()}</h2>
+    {document.body.split('\n').map((line, index) => <p key={index} style={{ margin: '-0.3em 0' }}>{line}</p>)}
+  </Box>
+) : (
+  <h1>Loading...</h1>
+)}
+
     </Box>
   );
 }

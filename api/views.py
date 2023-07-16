@@ -10,6 +10,10 @@ from django.views.decorators.csrf import csrf_exempt
 from langchain.chat_models import ChatOpenAI
 from PyPDF2 import PdfReader
 import tempfile
+from django.db import IntegrityError
+from django.contrib.auth.models import User
+from .utils import validateEmail
+
 #Imports related to langchain
 import os
 from api.apikey import apikey
@@ -94,3 +98,33 @@ def ProcessUserInput(request):
         response_message = index.query(input, ChatOpenAI(temperature=0.9))
         #return the response
         return JsonResponse({"response": response_message})
+
+@csrf_exempt
+def RegisterUser(request):
+    #Make sure the method is post
+    print('the api route worked')
+    if request.method == "POST":
+        #Get the data
+        data = json.loads(request.body)
+        email = data.get('email', None)
+        password = data.get('password', None)
+        confirm_password = data.get('confirmPassword', None)
+        #Make sure the passwords match
+        if (password != confirm_password):
+            return JsonResponse({"response": 'Passwords do not match'})
+        if (len(password) < 6):
+            return JsonResponse({"response": 'Please enter a password that is 6 characters or more'})       
+        #Validate the email
+        if (validateEmail(email) == False):
+            return JsonResponse({"response": 'Please enter a valid email'})
+        #Create the user (Django will handle a lot of the error checking work here)
+        try:
+            user = User.objects.create_user(username=email, email=email, password=password)
+            user.save()
+        except IntegrityError:
+            return JsonResponse({"response": 'Email already exists'})
+    return JsonResponse({"response": 'To Do: auto log in the user and redirect'})
+
+@csrf_exempt
+def LoginUser(request):
+    pass

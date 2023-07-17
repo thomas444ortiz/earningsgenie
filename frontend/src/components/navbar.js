@@ -55,7 +55,7 @@ export default function Navbar(props) {
     };
         
     return (
-        <Router>            
+        <Router >            
             <Box sx={{ flexGrow: 1}}>
                 <AppBar position="static">
                     <Toolbar>

@@ -1,33 +1,105 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Box, Typography, Paper, Grid } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import ChatIcon from '@mui/icons-material/Chat';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import VerifiedIcon from '@mui/icons-material/Verified';
 
 export default function AboutPage() {
-        return (
-        
-        <div>
-                <h1>About EarningsGenie</h1>
+    return (
+        <Box
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}
+        >
+            <Typography variant="h4" align="center" sx={{ margin: '1em' }}>
+                Use Artificial Ingelligence to Analyze Earnings Calls Faster and More Efficiently
+            </Typography>
+            <Typography variant="h6" align="center" sx={{ marginTop: '0em', marginBottom: '1em', maxWidth: '80%' }}>
+                Transform how you work with SEC filings and earnings transcripts. Focus on what matters, save time, and do better work — no matter what other tools you have.
+            </Typography>
+            
+            <Paper
+                sx={{
+                    marginTop: '1em',
+                    padding: '2em',
+                    maxWidth: '80%',
+                    bgcolor: 'grey.100',
+                    width: '100%',
+                }}
+            >
+                <Typography variant="h5" align="center" sx={{ marginTop: '0em', marginBottom: '1em'}}>
+                        Tools to help you work smarter
+                </Typography>
 
-                <h2>What is EarningsGenie?</h2>
-                <body>EarningsGenie allows you to find public company earnings call transcripts, and use AI to chat with them (similar to BAMSec, Seeking Alpha and The Motley Fool, 
-                        but with better AI features). Because you can upload any PDF file and chat with it, 
-                        it isn't limited to earnings calls, but that is our focus at the moment.</body>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} md={6}>
+                        <Paper
+                            sx={{
+                                padding: '1em',
+                                border: 1,
+                                bgcolor: 'grey.300',
+                            }}
+                        >
+                            <Typography variant="body1">
+                                <SearchIcon sx={{marginRight: '8px'}}/>
+                                Search through our libary of transcripts
+                            </Typography>
+                        </Paper>
+                    </Grid>
 
-                <h2>The Backstory</h2>
-                <body>In my recent past as an investment banker, I would occassionally be listening in on earnings calls and providing summaries over email to my bosses. 
-                        I also would frequently be looking through long documents for answers on very niche topics. This automates both, and I get good feedback
-                        I will work to improve the features and get more documents in.</body>
+                    <Grid item xs={12} md={6}>
+                        <Paper
+                            sx={{
+                                padding: '1em',
+                                border: 1,
+                                bgcolor: 'grey.300',
+                            }}
+                        >
+                            <Typography variant="body1">
+                                <ChatIcon sx={{marginRight: '8px'}}/>
+                                Chat directly with documents using AI
+                            </Typography>
+                        </Paper>
+                    </Grid>
 
-                <h2>About Thomas</h2>
-                <body>Thomas is a former investment banker, who quit his job in late May 2023 with aspirations of working in tech, and has since been learning to code; this 
-                        is the final project for his Introduction to Web Development with Javascript and Python through Harvard CS50 (free online). 
-                        If you have any good ideas for future projects or features, please let me know!</body>
+                    <Grid item xs={12} md={6}>
+                        <Paper
+                            sx={{
+                                padding: '1em',
+                                border: 1,
+                                bgcolor: 'grey.300',
+                            }}
+                        >
+                            <Typography variant="body1">
+                                <UploadFileIcon sx={{marginRight: '8px'}}/>
+                                Upload your own documents for analysis
+                            </Typography>
+                        </Paper>
+                    </Grid>
 
-                <h2>My Stack</h2>
-                <body>React, Django, Langchain, Material UI</body>
-
-
-
-
-
-        </div>
-        );
+                    <Grid item xs={12} md={6}>
+                        <Paper
+                            sx={{
+                                padding: '1em',
+                                border: 1,
+                                bgcolor: 'grey.300',
+                            }}
+                        >
+                            <Typography variant="body1">
+                                <VerifiedIcon sx={{marginRight: '8px'}}/>
+                                Try our pro features (coming soon)
+                            </Typography>
+                        </Paper>
+                    </Grid>
+                </Grid>
+            </Paper>
+                <Typography variant="h6" align="center" sx={{ margin: '1em', maxWidth: '80%' }}>
+                        Don't get left behind, join the future of financial analysis.
+                </Typography>            
+        </Box>
+    );
 }

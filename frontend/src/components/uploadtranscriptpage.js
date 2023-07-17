@@ -55,7 +55,8 @@ export default function UploadTranscriptPage() {
   };
 
   return (
-    <Box sx={{width: '90%', marginTop: '20px'}}>
+    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+    <Box sx={{width: '90%', marginTop: '0px'}}>
       <h1>Upload Transcript</h1>
       <input type="file" accept="application/pdf" onChange={onFileChange} />
         
@@ -69,6 +70,7 @@ export default function UploadTranscriptPage() {
         value={textFieldValue}
         onChange={e => setTextFieldValue(e.target.value)}
         inputProps={{ maxLength: 100 }}
+        sx={{bgcolor: 'grey.100'}}
       />
 
       <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
@@ -88,7 +90,7 @@ export default function UploadTranscriptPage() {
         minRows={1}
         value={loading ? 'loading...' : responseValue}
         InputProps={{readOnly: true}}
-        sx={{marginTop: '20px', marginBottom: '20px'}}
+        sx={{marginTop: '20px', marginBottom: '20px', bgcolor: 'grey.100'}}
       />
 
       {/* Display the uploaded PDF file */}
@@ -97,9 +99,10 @@ export default function UploadTranscriptPage() {
           src={pdfPreviewUrl}
           type="application/pdf"
           width="100%"
-          height="600px"
+          height="1000px"
         />
       ) : null}
     </Box>
+    </div>
   );
 }

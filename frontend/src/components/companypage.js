@@ -47,16 +47,17 @@ export default function SeeCompany() {
     <div>
       {company ? (
         <div>
-          <h1>{company.name}: {company.ticker}</h1>
+          <h1 style={{ marginLeft: '5%', marginBottom: '0' }}>{company.name}: {company.ticker}</h1>
           <Box m="auto" sx={{  
             width: '90%',
             border:'2px dashed grey',
             borderRadius: '15px',
-            marginTop: '100px',
+            marginTop: '50px',
             display: 'block',
             justifyContent: 'center',
             alignItems: 'center',
-            padding: '20px'
+            padding: '20px',
+            backgroundColor: 'grey.100'
           }}>
             <h2>Available Documents:</h2>        
 

@@ -74,7 +74,9 @@ export default function SeeDocument() {
       alignItems: 'center',
       justifyContent: 'center',
       gap: '20px',
-      marginTop: '20px'
+      marginTop: '20px',
+      marginLeft: '5px',
+      marginRight: '5px',
     }}>
       
       <Box sx={{width: '100%', marginTop: '20px'}}>
@@ -87,6 +89,7 @@ export default function SeeDocument() {
           value={textFieldValue}
           onChange={e => setTextFieldValue(e.target.value)}
           inputProps={{ maxLength: 100 }}
+          sx={{bgcolor: 'grey.100'}}
         />
 
         <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
@@ -107,7 +110,7 @@ export default function SeeDocument() {
           minRows={1}
           value={loading ? 'Loading...' : responseValue}
           InputProps={{readOnly: true}}
-          sx={{marginTop: '20px'}}
+          sx={{marginTop: '20px',bgcolor: 'grey.100'}}
         />
       </Box>           
       {document && company ? (
@@ -120,6 +123,8 @@ export default function SeeDocument() {
     borderRadius: '10px',
     border: '1px solid #000',
     maxWidth: '100%',
+    bgcolor: 'grey.100',
+    marginBottom: '20px',
   }}>
     <h1 style={{ textAlign: 'center', marginBottom: '0', marginTop: '0' }}>{company.name}: {document.title}</h1>
     <h2 style={{ textAlign: 'center', marginTop: '0' }}>{new Date(document.date).toLocaleDateString()}</h2>

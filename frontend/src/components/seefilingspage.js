@@ -24,13 +24,13 @@ export default function SeeFilingsPage() {
   return (
     <Box m="auto" sx={{  
       width: '90%',
-      border:'2px dashed grey',
-      borderRadius: '15px',
+      borderRadius: '10px',
       marginTop: '100px',
       display: 'block',
       justifyContent: 'center',
       alignItems: 'center',
-      padding: '20px'
+      padding: '20px',
+      backgroundColor: 'grey.100',
     }}>
       <h1 style={{textAlign: 'center'}}>Search for Companies Below</h1> 
       <Box sx={{width: '90%', margin: '0 auto'}}>

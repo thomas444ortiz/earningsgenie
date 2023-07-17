@@ -13,6 +13,16 @@ import tempfile
 from django.db import IntegrityError
 from django.contrib.auth.models import User
 from .utils import validateEmail
+import chromadb
+import sys
+from django.contrib.auth import authenticate, login
+from rest_framework.authtoken.models import Token
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from django.contrib.auth import logout
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.exceptions import AuthenticationFailed
 
 #Imports related to langchain
 import os
@@ -101,8 +111,6 @@ def ProcessUserInput(request):
 
 @csrf_exempt
 def RegisterUser(request):
-    #Make sure the method is post
-    print('the api route worked')
     if request.method == "POST":
         #Get the data
         data = json.loads(request.body)
@@ -121,10 +129,50 @@ def RegisterUser(request):
         try:
             user = User.objects.create_user(username=email, email=email, password=password)
             user.save()
+            token = Token.objects.create(user=user)               
         except IntegrityError:
             return JsonResponse({"response": 'Email already exists'})
     return JsonResponse({"response": 'To Do: auto log in the user and redirect'})
 
 @csrf_exempt
 def LoginUser(request):
-    pass
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        username = data.get('username', None)
+        password = data.get('password', None)
+
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            login(request, user)
+            token, created = Token.objects.get_or_create(user=user)  # get the token for this user
+            return JsonResponse({'token': str(token)}, status=200)  # return the token in the response
+        else:
+            return JsonResponse({'error': 'Invalid login credentials.'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request method.'}, status=400)
+    
+
+class Logout(APIView):
+    def get(self, request, format=None):
+        # simply delete the token to force a login
+        request.user.auth_token.delete()
+        logout(request)
+        return Response(status=status.HTTP_200_OK)
+    
+@csrf_exempt
+def CheckToken(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        token = data.get('token', None)
+        
+        # Add _ to ignore the token
+        user, _ = TokenAuthentication().authenticate_credentials(token)
+        
+        if user is not None:
+            # Include the user's email in the response
+            return JsonResponse({'status': 'valid token', 'email': user.email}, status=200)
+        else:
+            return JsonResponse({'status': 'invalid token'}, status=401)
+    else:
+        return JsonResponse({'error': 'Invalid request method.'}, status=400)

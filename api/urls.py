@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import DocumentView, CompanyView, SingleCompanyView, CompanyDocumentsView, SingleDocumentView
-from .views import ProcessUserInput, RegisterUser, LoginUser
+from .views import ProcessUserInput, RegisterUser, LoginUser, Logout, CheckToken
 
 urlpatterns = [
     #Path to retrieve all documents
@@ -20,5 +20,7 @@ urlpatterns = [
     #Path to login a user
     path('login', LoginUser, name='login'),
     #Path to logout a user 
-    
+    path('logout', Logout.as_view(), name='logout'),
+    #Path to check if a user is logged in
+    path('check_token', CheckToken, name='check_token'),
 ]

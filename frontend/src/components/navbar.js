@@ -14,8 +14,46 @@ import RegisterPage from './register.js';
 import SeeCompany from './companypage.js';
 import SeeDocument from './document.js';
 import EarningsGeniePro from './earningsgeniepro.js';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 export default function Navbar(props) {
+    // State variable for the login status
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userEmail, setUserEmail] = useState('');
+
+    useEffect(() => {
+        // check login status on initial render
+        axios.post('/api/check_token', {token: localStorage.getItem('token')})
+        .then(response => {
+            if (response.status === 200) {
+                setIsLoggedIn(true);
+                setUserEmail(response.data.email); // Assume that the backend sends the email in the response
+                console.log('logged in')
+            } else {
+                setIsLoggedIn(false);
+                console.log('not logged in')
+            }
+        })
+        .catch(error => {
+            console.log(error);
+            setIsLoggedIn(false);
+        });
+    }, []);        
+    
+    // Define the logout function
+    const logout = () => {
+        axios.get('/api/logout')
+            .then((response) => {
+                console.log(response);
+                setIsLoggedIn(false); // Add this line to set isLoggedIn to false when user logs out
+            })
+            .catch((error) => {
+                console.log(error);
+                // handle error here
+            });
+    };
+        
     return (
         <Router>            
             <Box sx={{ flexGrow: 1}}>
@@ -29,16 +67,24 @@ export default function Navbar(props) {
                             sx={{ mr: 2}}
                         >
                         </IconButton>
-                        <Typography varitan="h6" component="div" sx={{ flexGrow: 1}}>
-                            EarningsGenie
+                        <Typography varitan="h6" component="div" sx={{ flexGrow: 1, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                            <span style={{ fontWeight: 'bold', fontSize: 'xl' }}>EarningsGenie</span>
+                            {isLoggedIn && <div style={{ marginLeft: '10px', fontStyle: 'italic'}}>You are logged in as {userEmail}</div>}
                         </Typography>
+              
                         <Button color="inherit" component={RouterLink} to="">About EarningsGenie</Button>
                         <Button color="inherit" component={RouterLink} to="/filings">Filings</Button>
-                        <Button color="inherit" component={RouterLink} to="/uploadtranscript">Upload Transcript</Button> 
-                        <Button color="inherit" component={RouterLink} to="/earningsgeniepro">EarningsGenie Pro</Button>                                                      
+                        <Button color="inherit" component={RouterLink} to="/uploadtranscript">Upload Transcript</Button>                         
+                        <Button color="inherit" component={RouterLink} to="/earningsgeniepro">EarningsGenie Pro</Button>                          
+                        { isLoggedIn ? (
+                        <Button color="inherit" onClick={logout} to="">Logout</Button>
+                        ) : (
+                        <>
                         <Button color="inherit" component={RouterLink} to="/login">Login</Button>
-                        <Button color="inherit" component={RouterLink} to="/register">Register</Button>                        
-                        <Button color="inherit">Logout</Button>
+                        <Button color="inherit" component={RouterLink} to="/register">Register</Button>                             
+                        </>
+                        )}
+
                     </Toolbar> 
                 </AppBar>
 

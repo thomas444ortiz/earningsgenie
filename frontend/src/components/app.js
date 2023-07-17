@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom/client';
 import Navbar from './navbar.js';
-//import '../../static/css/index.css';
+import { AuthProvider } from '../authcontext.js';
 
 export default class App extends Component {
     constructor(props) {
@@ -10,9 +10,11 @@ export default class App extends Component {
 
     render () {
         return (
-            <div >
-                <Navbar />        
-            </div>
+            <AuthProvider>
+                <div>
+                    <Navbar />        
+                </div>
+            </AuthProvider>
         );
     }
 }

@@ -5,6 +5,12 @@ import { useNavigate } from 'react-router-dom';
 export default function EarningsGeniePro() {
     const navigate = useNavigate();
 
+    const handleFileUpload = (event) => {
+        const file = event.target.files[0];
+        // Handle file upload here...
+        console.log(file);
+    };
+
     useEffect(() => {
         // Get token from local storage
         const token = localStorage.getItem('token');
@@ -34,10 +40,11 @@ export default function EarningsGeniePro() {
     }, [navigate]);
 
     return (
-        <div>
-            <h1>Welcome to the page for EarningsGenie Pro</h1>
-            <h2>Will eventually throw some premium features in here to make money with it. If you have any good ideas, please share them with me.</h2>   
-            <h2>Best idea at the moment is: upload audio files (or send a bot into an earnings call) for live transcription, advanced sentiment analysis, etc. </h2>
+        <div style={{ marginLeft: '5%', marginRight: '5%' }}>
+            <h1>Welcome to EarningsGenie Pro</h1>
+            <h2>I will eventually throw some premium features in here to make money with it. If you have any good ideas, please share them with me.</h2>   
+            <h2>Best idea at the moment is: upload audio files (or send a bot into an earnings call) for live transcription, advanced sentiment analysis, etc. For now, I just have a placeholder file upload input below.</h2>
+            <input type="file" accept=".mp3" onChange={handleFileUpload} />
         </div>
     );
 }

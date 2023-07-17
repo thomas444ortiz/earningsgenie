@@ -5,15 +5,15 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
 export default function SeeDocument() {
-  const { docid, ticker } = useParams();
-  const [document, setDocument] = useState(null);
-  const [company, setCompany] = useState(null);
-  const [textFieldValue, setTextFieldValue] = useState('');  // State to hold the value of the TextField
+  const { docid, ticker } = useParams(); // Gets the docid and ticker from the URL
+  const [document, setDocument] = useState(null); // State to hold the document data
+  const [company, setCompany] = useState(null); // State to hold the company data
+  const [textFieldValue, setTextFieldValue] = useState('');  // State to hold the value of the user input
   const [responseValue, setResponseValue] = useState('');  // State to hold the response
-  const [buttonDisabled, setButtonDisabled] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false); //State to disable the button after it is pressed
+  const [loading, setLoading] = useState(false);  //State to show the response is loading
 
-
+  // Fetches the document and company data from the API
   useEffect(() => {
     // Fetch the document data
     fetch(`../../api/documents/${docid}`)
@@ -30,6 +30,7 @@ export default function SeeDocument() {
       .catch(error => console.error(error));
   }, [docid, ticker]);
 
+  // Function to handle the submit button, and the POST request to the backend to get the response from the openai API
   const handleSubmit = () => {
     // Validate input length
     if (textFieldValue.length < 10) {
@@ -56,7 +57,7 @@ export default function SeeDocument() {
       setLoading(false);
       setTimeout(() => {
         setButtonDisabled(false);
-      }, 20000);  // Re-enable the button after 10 seconds
+      }, 20000);  // Re-enable the button after 20 seconds
     })
     .catch(error => {
       console.error(error);

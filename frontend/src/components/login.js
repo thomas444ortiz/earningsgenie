@@ -43,12 +43,13 @@ export default function LoginPage () {
             marginTop: '100px',
             display: 'flex',
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            backgroundColor: 'grey.100'
         }}>
             <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <h2>Log In Below</h2>
-                <TextField label="Email" onChange={e => setEmail(e.target.value)} sx={{ padding: "2px" }}/>
-                <TextField id="outlined-password-input" label="Password" type="password" autoComplete="current-password" onChange={e => setPassword(e.target.value)} sx={{ padding: "2px" }}/>
+                <TextField label="Email" onChange={e => setEmail(e.target.value)} sx={{ padding: "2px", bgColor: 'white'  }}/>
+                <TextField id="outlined-password-input" label="Password" type="password" autoComplete="current-password" onChange={e => setPassword(e.target.value)} sx={{ padding: "2px", bgColor: 'white' }}/>
                 <Button variant="contained" type="submit" sx={{ marginTop: "10px" }}>Log In</Button>
                 <RouterLink to="/register" style={{ marginTop: "20px", textAlign: "center" }}>Don't Have an Account? Create One</RouterLink>                                   
             </form>

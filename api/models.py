@@ -5,7 +5,6 @@ from django.contrib.auth.models import AbstractUser
 class Company(models.Model):
     ticker = models.CharField(max_length=10, unique=True)
     name = models.CharField(max_length=100)
-    #ToDo: provide more information on the company
     def __str__(self):
         return self.ticker + " " + self.name
 

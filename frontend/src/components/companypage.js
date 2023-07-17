@@ -12,11 +12,12 @@ import Button from '@mui/material/Button';
 
 
 export default function SeeCompany() {
-  const { ticker } = useParams();
-  const [company, setCompany] = useState(null);
-  const [documents, setDocuments] = useState([]);
-  const navigate = useNavigate();
+  const { ticker } = useParams(); //Gets the ticker from the URL
+  const [company, setCompany] = useState(null); // State for the company
+  const [documents, setDocuments] = useState([]); // State for the documents
+  const navigate = useNavigate(); // Used to redirect the user to another page
 
+  // Fetches the company data from the API
   useEffect(() => {
     fetch(`../api/companies/${ticker}`)
       .then(response => {
@@ -32,7 +33,7 @@ export default function SeeCompany() {
       .catch(error => console.error(error));
   }, [ticker, navigate]);
 
-
+  // Fetches the documents data from the API
   useEffect(() => {
     fetch(`../api/companies/${ticker}/documents`)
       .then(response => response.json())

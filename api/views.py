@@ -1,12 +1,10 @@
-from rest_framework import generics
+from rest_framework import generics, status
 from .serializers import DocumentSerializer, CompanySerializer
 from .models import Document, Company
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import json
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from langchain.chat_models import ChatOpenAI
 from PyPDF2 import PdfReader
 import tempfile
@@ -14,19 +12,13 @@ from django.db import IntegrityError
 from django.contrib.auth.models import User
 from .utils import validateEmail
 import chromadb
-import sys
 from django.contrib.auth import authenticate, login
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status
 from django.contrib.auth import logout
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.exceptions import AuthenticationFailed
-from django.contrib.auth.decorators import login_required
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.decorators import api_view, permission_classes, authentication_classes
+
 
 #Imports related to langchain
 import os
@@ -133,10 +125,15 @@ def RegisterUser(request):
         try:
             user = User.objects.create_user(username=email, email=email, password=password)
             user.save()
-            token = Token.objects.create(user=user)               
+            token = Token.objects.create(user=user)
+            
+            # Log in the user automatically after a successful registration
+            login(request, user)
+            
+            return JsonResponse({'token': str(token)}, status=200)
         except IntegrityError:
             return JsonResponse({"response": 'Email already exists'})
-    return JsonResponse({"response": 'To Do: auto log in the user and redirect'})
+
 
 @csrf_exempt
 def LoginUser(request):

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,12 +15,11 @@ import SeeCompany from './companypage.js';
 import SeeDocument from './document.js';
 import EarningsGeniePro from './earningsgeniepro.js';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { AuthContext } from '../authcontext';
 
 export default function Navbar(props) {
-    // State variable for the login status
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [userEmail, setUserEmail] = useState('');
+    // Access authContext
+    const { isLoggedIn, setIsLoggedIn, userEmail, setUserEmail } = useContext(AuthContext);
 
     useEffect(() => {
         // check login status on initial render

@@ -9,7 +9,7 @@ class Company(models.Model):
     def __str__(self):
         return self.ticker + " " + self.name
 
-#Model for a documentß
+#Model for a document
 class Document(models.Model):
     document_type = models.CharField(max_length=10, choices=[('transcript', 'transcript'), ('filing', 'filing'), ('other', 'other')])
     company = models.ForeignKey(Company, on_delete=models.CASCADE)

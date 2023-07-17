@@ -50,7 +50,7 @@ export default function RegisterPage () {
                 <TextField id="outlined-password-input" label="Password" type="password" value={password} onChange={e => setPassword(e.target.value)} autoComplete="current-password" sx={{ padding: "2px" }}/>
                 <TextField id="outlined-confirm-password-input" label="Confirm Password" type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} autoComplete="current-password" sx={{ padding: "2px" }}/>
                 <Button variant="contained" sx={{ marginTop: "10px" }} type="submit">Create My Account</Button>
-                <RouterLink to="/login" style={{ marginTop: "20px", textAlign: "center" }}>Already have an account? Log in</RouterLink>                                 
+                <RouterLink to="/login" style={{ margin: "20px", textAlign: "center" }}>Already have an account? Log in</RouterLink>                                 
             </form>
         </Box>     
     );

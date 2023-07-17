@@ -65,7 +65,7 @@ class CompanyDocumentsView(generics.ListAPIView):
         """
         ticker = self.kwargs['ticker']
         company = get_object_or_404(Company, ticker=ticker)
-        return Document.objects.filter(company=company)
+        return Document.objects.filter(company=company).order_by('-date')
 
 #This will return a single document in the database
 class SingleDocumentView(generics.RetrieveAPIView): 

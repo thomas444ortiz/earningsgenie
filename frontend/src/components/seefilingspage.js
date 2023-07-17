@@ -14,8 +14,9 @@ export default function SeeFilingsPage() {
         fetch('api/companies')
             .then(response => response.json())
             .then(data => {
-                const tickers = data.map(company => company.ticker);  
-                setOptions(tickers);  
+                const tickers = data.map(company => company.ticker);
+                const sortedTickers = tickers.sort();
+                setOptions(sortedTickers);  
             })
             .catch(error => console.error(error));
     }, []); 
@@ -31,7 +32,7 @@ export default function SeeFilingsPage() {
       alignItems: 'center',
       padding: '20px'
     }}>
-      <h1 style={{textAlign: 'center'}}>Search for Companies Below</h1>
+      <h1 style={{textAlign: 'center'}}>Search for Companies Below</h1> 
       <Box sx={{width: '90%', margin: '0 auto'}}>
         <Autocomplete
           options={options}

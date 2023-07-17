@@ -69,7 +69,7 @@ export default function Navbar(props) {
                         </IconButton>
                         <Typography varitan="h6" component="div" sx={{ flexGrow: 1, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                             <span style={{ fontWeight: 'bold', fontSize: 'xl' }}>EarningsGenie</span>
-                            {isLoggedIn && <div style={{ marginLeft: '10px', fontStyle: 'italic'}}>You are logged in as {userEmail}</div>}
+                            {isLoggedIn && <div style={{ marginLeft: '10px', fontStyle: 'italic'}}>Logged in as {userEmail}</div>}
                         </Typography>
               
                         <Button color="inherit" component={RouterLink} to="">About EarningsGenie</Button>

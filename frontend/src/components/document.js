@@ -11,6 +11,8 @@ export default function SeeDocument() {
   const [textFieldValue, setTextFieldValue] = useState('');  // State to hold the value of the TextField
   const [responseValue, setResponseValue] = useState('');  // State to hold the response
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
     // Fetch the document data
@@ -39,6 +41,7 @@ export default function SeeDocument() {
     setButtonDisabled(true);
     
     // Send a POST request to the backend
+    setLoading(true);
     fetch('/api/submit-text', {
       method: 'POST',
       headers: {
@@ -50,14 +53,16 @@ export default function SeeDocument() {
     .then(data => {
       console.log(data);
       setResponseValue(data.response);  // Assume the response data is in a field called 'message'
+      setLoading(false);
       setTimeout(() => {
         setButtonDisabled(false);
-      }, 15000);  // Re-enable the button after 10 seconds
+      }, 20000);  // Re-enable the button after 10 seconds
     })
     .catch(error => {
       console.error(error);
       // Enable the button if there was an error
       setButtonDisabled(false);
+      setLoading(false);
     });
   };
   
@@ -90,7 +95,7 @@ export default function SeeDocument() {
           </Button>
 
           {buttonDisabled ? (
-              <p>Button is disabled for 15 seconds after being pressed.</p>
+              <p>Button is disabled for 20 seconds after being pressed.</p>
             ) : null}          
         </div>
 
@@ -100,7 +105,7 @@ export default function SeeDocument() {
           fullWidth
           multiline
           minRows={1}
-          value={responseValue}
+          value={loading ? 'Loading...' : responseValue}
           InputProps={{readOnly: true}}
           sx={{marginTop: '20px'}}
         />

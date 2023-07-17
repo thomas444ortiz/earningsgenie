@@ -9,6 +9,7 @@ export default function UploadTranscriptPage() {
   const [responseValue, setResponseValue] = useState('');  // State to hold the response
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [pdfPreviewUrl, setPdfPreviewUrl] = useState(null); // State to hold the PDF preview URL
+  const [loading, setLoading] = useState(false);
 
   const onFileChange = (event) => {
     const file = event.target.files[0];
@@ -30,7 +31,7 @@ export default function UploadTranscriptPage() {
     const formData = new FormData();
     formData.append('text', textFieldValue);
     formData.append('file', file);
-
+    setLoading(true);
     try {
       const response = await fetch('/api/submit-text', {
         method: 'POST',
@@ -40,15 +41,16 @@ export default function UploadTranscriptPage() {
       const data = await response.json();
       console.log(data);
 
-      setResponseValue(data.response);  // Assume the response data is in a field called 'message'
-
+      setResponseValue(data.response);
+      setLoading(false);
       setTimeout(() => {
         setButtonDisabled(false);
-      }, 15000);  // Re-enable the button after 10 seconds
+      }, 20000);  // Re-enable the button after 20 seconds
     } catch (error) {
       console.error(error);
       // Enable the button if there was an error
       setButtonDisabled(false);
+      setLoading(false);
     }
   };
 
@@ -74,7 +76,7 @@ export default function UploadTranscriptPage() {
           Submit
         </Button>
         {buttonDisabled ? (
-          <p style={{margin: '0'}}>Button is disabled for 15 seconds after being pressed.</p>
+          <p style={{margin: '0'}}>Button is disabled for 20 seconds after being pressed.</p>
         ) : null}
       </div>
 
@@ -84,7 +86,7 @@ export default function UploadTranscriptPage() {
         fullWidth
         multiline
         minRows={1}
-        value={responseValue}
+        value={loading ? 'loading...' : responseValue}
         InputProps={{readOnly: true}}
         sx={{marginTop: '20px', marginBottom: '20px'}}
       />

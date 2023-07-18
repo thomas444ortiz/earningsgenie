@@ -11,7 +11,6 @@ export default function RegisterPage () {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const navigate = useNavigate();
-    const { setIsLoggedIn } = useContext(AuthContext);  
 
     const handleSubmit = async (event) => {
         event.preventDefault();  // prevent the form from refreshing the page
@@ -19,7 +18,7 @@ export default function RegisterPage () {
         if(password !== confirmPassword) {
             alert("Passwords must match.");
             return;
-        }
+        } 
 
         const response = await fetch('/api/register', {
             method: 'POST',
@@ -34,8 +33,8 @@ export default function RegisterPage () {
         if (data.response) {
             alert(data.response);
         } else {
-            navigate('/');
-            setIsLoggedIn(true);            
+            alert('Account created successfully. You will now be redirected to the login page.')
+            navigate('/login');         
         }
     };
 

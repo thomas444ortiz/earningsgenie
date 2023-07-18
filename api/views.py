@@ -81,7 +81,7 @@ def ProcessUserInput(request):
             for page in reader.pages:
                 contents += page.extract_text()
         #Otherwise, which is if the user calls this function from the document page for already uploaded documents
-        else:
+        else: 
             # process text
             data = json.loads(request.body.decode('utf-8'))
             input = data.get('text', None)
@@ -126,11 +126,7 @@ def RegisterUser(request):
             user = User.objects.create_user(username=email, email=email, password=password)
             user.save()
             token = Token.objects.create(user=user)
-            
-            # Log in the user automatically after a successful registration
-            login(request, user)
-            
-            return JsonResponse({'token': str(token)}, status=200)
+            return JsonResponse({'success': 'Registration successful'}, status=200)
         except IntegrityError:
             return JsonResponse({"response": 'Email already exists'})
 

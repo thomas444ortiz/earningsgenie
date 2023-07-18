@@ -15,6 +15,5 @@ class Document(models.Model):
     date = models.DateField()
     title = models.CharField(max_length=100)
     body = models.TextField()
-    #ToDo: add in other format to hold the body of the doc in a format that could look better
     def __str__(self):
         return self.title + " " + str(self.company)

@@ -30,7 +30,7 @@ export default function LoginPage () {
             window.location.href = '/';
         } else {
             // Show error message to user
-            console.error('Invalid login credentials');
+            alert('Invalid login credentials');
         }
     };
 
